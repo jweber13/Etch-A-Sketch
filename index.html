@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Etch-A-Sketch</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tourney:wght@200;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./resources/styles.css">
+    <script src="./script.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <h1>Etch-A-Sketch</h1>
+    </header>
+
+    <div class="main-content">
+
+      <!-- Selector -->
+      <div id="selector-section">
+        <div class="slider">
+            <input type="range" min="8" max="64" step="8" value="8" id="range" oninput="rangeValue.innerText = this.value + 'x' + this.value" />
+            <p id="rangeValue">8x8</p>
+        </div>
+        <div class="btn-selector">
+          <input type="color" id="color-sel"></input>
+        </div>
+        <div class="btn-selector">
+          <button id="dark-btn">Darken</button>
+        </div>
+        <div class="btn-selector">
+          <button id="rainbow-btn">Rainbow</button>
+        </div>
+        <div class="btn-selector">
+            <button id="erase-btn">Erasor</button>
+        </div>
+        <div class="btn-selector">
+          <button id="clear-btn">Clear</button>
+        </div>
+        
+      </div>
+
+      <!-- Sketch Grid -->
+      <div id="sketch-section">
+        <div class="sketch-grid">
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
