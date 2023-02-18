@@ -49,8 +49,10 @@ function changeColor() {
             console.log(`color mode: ${colorVal}`);
             break;
         case "Darken" :
-            this.style.background = "black";
-            console.log(`darken mode: ${colorVal}`);
+            console.log(`darken mode: ${this.style.background}`);
+            colorVal = adjust(RGBToHex, this.style.background, -15);
+            console.log(`new color is: ${colorVal}`);
+            this.style.background = colorVal;
             break;
         case "Rainbow" :
             colorVal = random_rgb();
@@ -126,23 +128,37 @@ function random_rgb() {
     return 'rgb(' + o(r()*s) + ',' + o(r()*s) + ',' + o(r()*s) + ',' + r().toFixed(1) + ')';
 }
 
-function darkenShade(hexColor) {
-    hexColor = hexColor.replace(`#`, ``);
-    if (hexColor.length === 6) {
-        const decimalColor = parseInt(hexColor, 16);
-        let r = (decimalColor >> 16) + -10;
-        r > 255 && (r = 255);
-        r < 0 && (r = 0);
-        let g = (decimalColor & 0x0000ff) + -10;
-        g > 255 && (g = 255);
-        g < 0 && (g = 0);
-        let b = ((decimalColor >> 8) & 0x00ff) + -10;
-        b > 255 && (b = 255);
-        b < 0 && (b = 0);
-        return `#${(g | (b << 8) | (r << 16)).toString(16)}`;
-    } else {
-        return hexColor;
-    }
+function RGBToHex(rgb) {
+    // Choose correct separator
+    let sep = rgb.indexOf(',') > -1 ? ',' : ' ';
+    // Turn "rgb(r,g,b)" into [r,g,b]
+    rgb = rgb.substr(4).split(')')[0].split(sep);
+  
+    let r = (+rgb[0]).toString(16),
+      g = (+rgb[1]).toString(16),
+      b = (+rgb[2]).toString(16);
+  
+    if (r.length == 1) r = '0' + r;
+    if (g.length == 1) g = '0' + g;
+    if (b.length == 1) b = '0' + b;
+    b = (+rgb[2]).toString(16);
+  
+    if (r.length == 1) r = '0' + r;
+    if (g.length == 1) g = '0' + g;
+    if (b.length == 1) b = '0' + b;
+    return '#' + r + g + b;
+}
+
+function adjust(RGBToHex, rgb, amount) {
+    let color = RGBToHex(rgb);
+    return (
+      '#' +
+      color
+        .replace(/^#/, '')
+        .replace(/../g, (color) =>
+          ('0' + Math.min(255, Math.max(0, parseInt(color, 16) + amount)).toString(16)).substr(-2)
+        )
+    );
 }
 
 let mouseDownListener = () => {
@@ -164,10 +180,11 @@ function addRows(ro, col){
             let row = document.createElement('div');
             row.className = 'row';
             row.style.height = `${h/ro}px`;
-            row.style.border = ".5px solid black";
+            row.style.border = "0.05px solid #E5E4E2";
             row.style.flex = "1"; //flex 1 allows flex grow & flex shrink
+            row.style.background = "#FFFFFF";
             row.addEventListener("mousedown", mouseDownListener);
-            row.addEventListener("mousemove", changeColor);
+            row.addEventListener("mouseenter", changeColor);
             row.addEventListener("mouseup", mouseUpListener);
             column.appendChild(row);
         }
@@ -178,4 +195,8 @@ function addRows(ro, col){
 window.onload = () => {
   addRows(8,8);
   colorVal = DEFAULT_COLOR;
+}
+
+window.onresize = () => {
+    //sliderValue();
 }
