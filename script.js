@@ -1,9 +1,9 @@
 
 const DEFAULT_COLOR = "#000000";
-let COLOR_MODE = "";
 
+let COLOR_MODE = "";
 let isMouseDown = false;
-let colorVal = "";
+let colorVal = DEFAULT_COLOR;
 
 const gridContainer = document.querySelector(".sketch-grid");
 const range = document.getElementById("range");
@@ -49,13 +49,12 @@ function changeColor() {
             console.log(`color mode: ${colorVal}`);
             break;
         case "Darken" :
-            this.style.background = colorVal;
+            this.style.background = "black";
             console.log(`darken mode: ${colorVal}`);
             break;
         case "Rainbow" :
-            randomColor = Math.floor(Math.random()*16777215).toString(16);
-            this.style.background = randomColor;
-            console.log(randomColor);
+            colorVal = random_rgb();
+            this.style.background = colorVal;
             break;
         case "Erasor" :
             this.style.background = "#FFFFFF"
@@ -68,27 +67,63 @@ function changeColor() {
   }
 }
 
+function buttonChange() {
+    switch (COLOR_MODE) {
+        case "Rainbow" :
+            rainbowBtn.classList.add("active");
+            colorInput.classList.remove("active");
+            erasorBtn.classList.remove("active");
+            darkBtn.classList.remove("active");
+            break;
+        case "Darken" :
+            rainbowBtn.classList.remove("active");
+            colorInput.classList.remove("active");
+            erasorBtn.classList.remove("active");
+            darkBtn.classList.add("active");
+            break;
+        case "Erasor" :
+            rainbowBtn.classList.remove("active");
+            colorInput.classList.remove("active");
+            erasorBtn.classList.add("active");
+            darkBtn.classList.remove("active");
+            break;
+        default:
+            rainbowBtn.classList.remove("active");
+            colorInput.classList.add("active");
+            erasorBtn.classList.remove("active");
+            darkBtn.classList.remove("active");
+    }
+}
+
 function setColor(e) {
     COLOR_MODE = "Color";
+    buttonChange();
     colorVal = e.target.value;
     console.log(colorVal);
     console.log("color set");
 }
 
-function setDarken(e) {
+function setDarken() {
     COLOR_MODE = "Darken";
-    colorVal = darkenShade(e.target.value);
+    buttonChange();
     console.log("darken set");
 }
 
 function setRainbow() {
     COLOR_MODE = "Rainbow";
+    buttonChange();
     console.log("rainbow set");
 }
 
 function setErasor() {
     COLOR_MODE = "Erasor";
+    buttonChange();
     console.log("erasor set");
+}
+
+function random_rgb() {
+    var o = Math.round, r = Math.random, s = 255;
+    return 'rgb(' + o(r()*s) + ',' + o(r()*s) + ',' + o(r()*s) + ',' + r().toFixed(1) + ')';
 }
 
 function darkenShade(hexColor) {
@@ -129,7 +164,7 @@ function addRows(ro, col){
             let row = document.createElement('div');
             row.className = 'row';
             row.style.height = `${h/ro}px`;
-            //row.style.border = ".5px solid black";
+            row.style.border = ".5px solid black";
             row.style.flex = "1"; //flex 1 allows flex grow & flex shrink
             row.addEventListener("mousedown", mouseDownListener);
             row.addEventListener("mousemove", changeColor);

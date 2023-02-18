@@ -25,21 +25,26 @@
   /* Selector Section */
     
     #selector-section {
-      width: 15%;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-evenly;
-      margin-right: 1rem;
+        width: 15%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        margin-right: 1rem;
     }
-  
-   #selector-section button, input{
-      width: 150px;
-      height: 50px;
-      font-family: inherit;
-      font-weight: 900;
-      color: black;
-      font-size: 1rem;
-      border-radius: 5%;
+
+    #selector-section button, input{
+        width: 150px;
+        height: 50px;
+        font-family: inherit;
+        font-weight: 900;
+        color: black;
+        font-size: 1rem;
+        border-radius: 5%;
+    }
+
+    #selector-section button.active {
+        background-color: black;
+        color: #fdfdfd;
     }
   
   /* Slider */
@@ -74,7 +79,7 @@
       -webkit-appearance: none !important;
       width: 20px;
       height: 20px;
-      background: #ca4d4d;
+      background: black;
       border: 1px solid black;
       border-radius: 50%;
       cursor: pointer;
